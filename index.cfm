@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="main.css" type="text/css" />	
 	<script type="text/javascript" 
 	        src="http://www.google.com/jsapi"></script>
+	
 	<script type="text/javascript">
 	  // You may specify partial version numbers, such as "1" or "1.3",
 	  //  with the same result. Doing so will automatically load the 
@@ -44,6 +45,9 @@
 				     }
 				   });
 				 };
+				 
+		//Make things editable
+//		$(".item_editable").editable();
 		
 	  });
 	
@@ -91,8 +95,7 @@
 		}
 	
 	</script>
-	
-	<!-- Date: 2009-11-27 -->
+	<script type="text/javascript" src="js/jquery.editable-1.3.3.js"></script>
 	<cfscript>
 		qItems = QueryNew("pomdate,type,text,row,hasTicket", "Date,Varchar,Varchar,numeric,boolean");
 		function itemFormatter(stringItem){
@@ -161,6 +164,7 @@
 </cfquery>
 
 
+
 <cffunction name="getPomInstances" output="true">
 	<cfargument name="query">
 	<cfargument name="text">
@@ -168,8 +172,8 @@
 		<cfquery name="getMatchingPoms" dbtype="query">
 			SELECT * FROM arguments.query
 			WHERE 1=1
-			AND type = <cfqueryparam cfsqltype="cf_sql_varchar" value="POM">
-				OR type = <cfqueryparam cfsqltype="cf_sql_varchar" value="DONE">
+			AND (type = <cfqueryparam cfsqltype="cf_sql_varchar" value="POM">
+				OR originalType = <cfqueryparam cfsqltype="cf_sql_varchar" value="POM">)
 			AND formattedText LIKE <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.text#%">
 		</cfquery>
 		<cfreturn getMatchingPoms.recordcount>
@@ -188,7 +192,7 @@
 	AND type != 'DATE'
 	ORDER by pomdate DESC
 </cfquery>
-
+<cfdump var="#backOrdered#">
 <div class="newItem">
 	<form action="fileupdate.cfm" method="post" accept-charset="utf-8">
 		<input type="hidden" name="action" value="newItem">
@@ -253,24 +257,26 @@
 						<img src="images/#type#.png" title="#type# entry" border=0>
 					</cfif>
 					
-					<span id="item_#row#">#ticketLinker(formattedtext)#</span>
+					<span class="item_editable" id="item_#row#">#ticketLinker(formattedtext)#</span>
 					
-					<cfif ListFindNoCase("TODO,DONE", TYPE) AND originalType EQ "TODO">
-					<!--- get the POM occurances of this item --->
-					<cfset instances = getPomInstances(backOrdered,formattedtext)>
-					<cfloop from="1" to="#estimate#" index="e">
-						<cfif e LTE instances>
-							<input type="checkbox" name="estimate_#row#" checked="true" disabled="true" title="completed pom"/>
-						<cfelse>
-							<input type="checkbox" name="estimate_#row#" onClick="addPom(#row#)" title="click me to add a pom"/>
-						</cfif>
-					</cfloop>
-					<cfif instances GTE estimate>
-						<cfloop from="#estimate#" to="#instances#" index="over">
-							<img src="images/clock_red.png" title="#over-estimate+1# pom over estimate">							
+					<cfif ListFindNoCase("TODO,DONE", TYPE)>
+						<!--- get the POM occurances of this item --->
+						<cfset instances = getPomInstances(backOrdered,formattedtext)>
+						<cfloop from="1" to="#estimate#" index="e">
+							<cfif e LTE instances>
+								<input type="checkbox" name="estimate_#row#" checked="true" disabled="true" title="completed pom"/>
+							<cfelse>
+								<input type="checkbox" name="estimate_#row#" onClick="addPom(#row#)" title="click me to add a pom"/>
+							</cfif>
 						</cfloop>
-						<img src="images/clock_add.png" title="add another pom" onclick="addPom(#row#)">
-					</cfif>
+						<cfif instances GT estimate>
+							<cfloop from="#estimate#" to="#instances#" index="over">
+								<img src="images/clock_red.png" title="#over-estimate+1# pom over estimate">							
+							</cfloop>
+						</cfif>
+						<cfif instances GTE estimate>
+							<img src="images/clock_add.png" title="add another pom" onclick="addPom(#row#)">
+						</cfif>
 					
 					</cfif>
 					
