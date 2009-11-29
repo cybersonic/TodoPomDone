@@ -1,0 +1,112 @@
+.back1 {
+	background-color: #DDD;
+}
+.back2 {
+	background-color: #EEE;
+}
+.POM {
+	color:blue;
+	margin-left:30px;
+	margin-top:10px;
+}
+.DONE {
+	text-decoration: line-through;
+	margin-left:30px;
+	margin-top:10px;
+}
+.TODO {
+	font-weight: bold;
+	margin-left:30px;
+	margin-top:10px;
+}
+.OTHER {
+	margin-left:30px;
+	margin-top:10px;
+}
+
+.menu {
+	position: fixed;
+	margin:0;
+	width:100%;
+	height:30px;
+	left:0px;
+	top:0px;
+}
+BODY{
+	margin-top: 40px;
+	font-family: Georgia, sans-serif;
+	margin-bottom:30px;
+}
+.itemblock {
+	margin-top: 40px;
+}
+.row {
+	font-family: "Courier", sans-serif;
+	font-size: 60%;
+}
+
+#statusinfo {
+	position: fixed;
+	width:100%;
+	left:0px;
+	bottom:0px;
+	color:#cccccc;
+	background:#333333;
+	height:16px;
+	list-style:none;
+	margin:10;
+	padding:10;
+	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
+}
+
+#pom_icon {
+	width:16px;
+	height:16px;	
+	background: url(images/pom.png);
+	display:none;
+}	
+#todo_icon {
+		width:16px;
+		height:16px;	
+		background: url(images/todo.png);
+		display:none;
+}
+#done_icon {
+		width:16px;
+		height:16px;	
+		background: url(images/done.png);
+		display:none;
+}
+#other_icon {
+		width:16px;
+		height:16px;	
+		background: url(images/other.png);
+		display: none;
+}
+.checkboxspacer {
+		display: inline;
+		width:20px;
+	
+}
+
+/* Tag cloud styles */
+
+.tagCloud_5 { font-size: 110%; }
+.tagCloud_4 { font-size: 100%; }
+.tagCloud_3 { font-size: 90%; }
+.tagCloud_2 { font-size: 80%; }
+.tagCloud_1 { font-size: 70%; }
+
+/* description */
+
+.description {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 80%;
+	background-color: #ffda00;
+	
+}
+.description-text {
+	background-color: #ffda00;
+	padding:5px;
+	
+}
